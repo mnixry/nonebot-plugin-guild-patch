@@ -3,8 +3,6 @@ from typing import Optional, Union
 from nonebot.adapters.onebot.v11 import Bot, Event, Message, MessageSegment, escape
 from nonebot.log import logger
 
-from . import models  # noqa:F401
-
 original_send = Bot.send
 
 
@@ -36,3 +34,5 @@ async def patched_send(
 
 
 Bot.send = patched_send
+
+from .models import *  # noqa
