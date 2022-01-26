@@ -4,7 +4,14 @@
 
 *NoneBot2 QQ 频道 (go-cqhttp) 支持适配补丁插件.*
 
-> **注: 本补丁没有经过充分测试, 不建议在生产环境使用, 如果发现任何问题请评论反馈**
+![PyPI](https://img.shields.io/pypi/v/nonebot-plugin-guild-patch?style=for-the-badge)
+
+[![GitHub issues](https://img.shields.io/github/issues/mnixry/nonebot-plugin-guild-patch)](https://github.com/mnixry/nonebot-plugin-guild-patch/issues)
+[![GitHub forks](https://img.shields.io/github/forks/mnixry/nonebot-plugin-guild-patch)](https://github.com/mnixry/nonebot-plugin-guild-patch/network)
+[![GitHub stars](https://img.shields.io/github/stars/mnixry/nonebot-plugin-guild-patch)](https://github.com/mnixry/nonebot-plugin-guild-patch/stargazers)
+[![GitHub license](https://img.shields.io/github/license/mnixry/nonebot-plugin-guild-patch)](https://github.com/mnixry/nonebot-plugin-guild-patch/blob/main/LICENSE)
+
+> **注: 本补丁没有经过充分测试, 不建议在生产环境使用, 如果发现任何问题请[Issue反馈](https://github.com/mnixry/nonebot-plugin-guild-patch/issues/new/choose)**
 
 ## 适用版本
 
@@ -30,7 +37,7 @@
 ```diff
 11-13 09:14:52 [DEBUG] nonebot | Succeeded to load adapter "cqhttp"
 11-13 09:14:52 [SUCCESS] nonebot | Succeeded to import "nonebot.plugins.echo"
-+ 11-13 09:14:52 [SUCCESS] nonebot | Succeeded to import "nonebot_guild_patch"
++ 11-13 09:14:52 [SUCCESS] nonebot | Succeeded to import "nonebot_plugin_guild_patch"
 11-13 09:14:52 [SUCCESS] nonebot | Running NoneBot...
 11-13 09:14:52 [DEBUG] nonebot | Loaded adapters: cqhttp
 11-13 09:14:52 [INFO] uvicorn | Started server process [114514]
@@ -46,7 +53,7 @@
 from nonebot.plugin import on_command
 from nonebot.adapters.cqhttp import Bot, MessageSegment
 
-from nonebot_plugin_guild_patch.models import GuildMessageEvent
+from nonebot_plugin_guild_patch import GuildMessageEvent
 
 matcher = on_command('image')
 
