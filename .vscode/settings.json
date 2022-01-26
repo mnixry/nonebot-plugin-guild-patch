@@ -1,5 +1,4 @@
 {
-    "python.pythonPath": ".venv/bin/python",
     "python.analysis.completeFunctionParens": true,
     "python.analysis.typeCheckingMode": "basic",
     "python.analysis.diagnosticSeverityOverrides": {
@@ -27,17 +26,6 @@
     "git.enableSmartCommit": true,
     "python.analysis.diagnosticMode": "workspace",
     "cSpell.words": [
-        "aarch",
-        "armv",
-        "bssid",
-        "cqhttp",
-        "GOARCH",
-        "gocq",
-        "gocqhttp",
-        "imei",
-        "imsi",
-        "psutil",
-        "pydantic",
-        "ssid"
+        "pydantic"
     ],
 }
