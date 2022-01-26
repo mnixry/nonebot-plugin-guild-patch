@@ -1,10 +1,29 @@
-from typing import List, Optional
+from typing import List, Optional, Type, TypeVar
 
-from nonebot.adapters.onebot.v11 import Message, MessageEvent, NoticeEvent
+from nonebot.adapters.onebot.v11 import (
+    Adapter,
+    Event,
+    Message,
+    MessageEvent,
+    NoticeEvent,
+)
+from nonebot.log import logger
 from pydantic import BaseModel, Field, validator
 from typing_extensions import Literal
 
+Event_T = TypeVar("Event_T", bound=Type[Event])
 
+
+def register_event(event: Event_T) -> Event_T:
+    Adapter.add_custom_model(event)
+    logger.opt(colors=True).trace(
+        f"Custom event <e>{event.__event__!r}</e> registered "
+        f"from class <g>{event.__qualname__!r}</g>"
+    )
+    return event
+
+
+@register_event
 class GuildMessageEvent(MessageEvent):
     __event__ = "message.guild"
     self_tiny_id: int
@@ -38,6 +57,7 @@ class ReactionInfo(BaseModel):
         extra = "allow"
 
 
+@register_event
 class ChannelNoticeEvent(NoticeEvent):
     __event__ = "notice.channel"
     self_tiny_id: int
@@ -48,6 +68,7 @@ class ChannelNoticeEvent(NoticeEvent):
     sub_type: None = None
 
 
+@register_event
 class MessageReactionUpdatedNoticeEvent(ChannelNoticeEvent):
     __event__ = "notice.message_reactions_updated"
     notice_type: Literal["message_reactions_updated"]
@@ -82,6 +103,7 @@ class ChannelInfo(BaseModel):
         extra = "allow"
 
 
+@register_event
 class ChannelUpdatedNoticeEvent(ChannelNoticeEvent):
     __event__ = "notice.channel_updated"
     notice_type: Literal["channel_updated"]
@@ -90,6 +112,7 @@ class ChannelUpdatedNoticeEvent(ChannelNoticeEvent):
     new_info: ChannelInfo
 
 
+@register_event
 class ChannelCreatedNoticeEvent(ChannelNoticeEvent):
     __event__ = "notice.channel_created"
     notice_type: Literal["channel_created"]
@@ -97,6 +120,7 @@ class ChannelCreatedNoticeEvent(ChannelNoticeEvent):
     channel_info: ChannelInfo
 
 
+@register_event
 class ChannelDestroyedNoticeEvent(ChannelNoticeEvent):
     __event__ = "notice.channel_destroyed"
     notice_type: Literal["channel_destroyed"]

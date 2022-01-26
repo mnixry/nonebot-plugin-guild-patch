@@ -1,18 +1,9 @@
-import inspect
 from typing import Optional, Union
 
-import nonebot
-from nonebot.adapters.onebot.v11 import (
-    Adapter,
-    Bot,
-    Event,
-    Message,
-    MessageSegment,
-    escape,
-)
+from nonebot.adapters.onebot.v11 import Bot, Event, Message, MessageSegment, escape
 from nonebot.log import logger
 
-from . import models
+from . import models  # noqa:F401
 
 original_send = Bot.send
 
@@ -22,8 +13,13 @@ async def patched_send(
 ):
     guild_id: Optional[int] = getattr(event, "guild_id", None)
     channel_id: Optional[int] = getattr(event, "channel_id", None)
+
     if not (guild_id and channel_id):
         return await original_send(self, event, message, **kwargs)
+    logger.opt(colors=True).debug(
+        "Sending guild message to "
+        f"guild_id=<e>{guild_id}</e>, channel_id=<e>{channel_id}</e>"
+    )
 
     user_id: Optional[int] = getattr(event, "user_id", None)
     message = (
@@ -39,15 +35,4 @@ async def patched_send(
     )
 
 
-driver = nonebot.get_driver()
-
-
-@driver.on_startup
-def patch():
-    Bot.send = patched_send
-
-    for model in models.__dict__.values():
-        if inspect.isclass(model) and issubclass(model, Event):
-            Adapter.add_custom_model(model)
-
-    logger.debug("Patch for NoneBot2 guild adaptation has been applied.")
+Bot.send = patched_send
