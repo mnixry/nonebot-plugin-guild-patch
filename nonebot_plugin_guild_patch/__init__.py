@@ -1,6 +1,6 @@
 from typing import Optional, Union
 
-from nonebot.adapters.onebot.v11 import Bot, Event, Message, MessageSegment, escape
+from nonebot.adapters.onebot.v11 import Bot, Event, Message, MessageSegment
 from nonebot.log import logger
 
 original_send = Bot.send
@@ -23,9 +23,6 @@ async def patched_send(
     )
 
     user_id: Optional[int] = getattr(event, "user_id", None)
-    message = (
-        escape(message, escape_comma=False) if isinstance(message, str) else message
-    )
 
     message_sent = Message()
     if user_id and kwargs.get("at_sender", False):
