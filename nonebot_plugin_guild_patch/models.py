@@ -41,7 +41,7 @@ class GuildMessageEvent(MessageEvent):
         if isinstance(raw_message, str):
             return raw_message
         elif isinstance(raw_message, list):
-            return str(Message(raw_message))
+            return str(Message(Message._construct(raw_message)))
         raise ValueError("unknown raw message type")
 
 
