@@ -15,8 +15,7 @@
 
 ## 适用版本
 
-- [`go-cqhttp` >= `1.0.0-beta8`](https://github.com/Mrs4s/go-cqhttp/releases/tag/v1.0.0-beta8)
-  - 已支持[`1.0.0-beta8-fix1`](https://github.com/Mrs4s/go-cqhttp/releases/tag/v1.0.0-beta8-fix1)新加入的事件
+- `go-cqhttp` >= `1.0.0-beta8-fix2`
 - `NoneBot2` >= `2.0.0b1`
 
 ## 支持功能
