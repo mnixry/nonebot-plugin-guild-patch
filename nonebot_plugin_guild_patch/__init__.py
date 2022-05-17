@@ -26,7 +26,7 @@ async def patched_send(
 
     message_sent = Message()
     if user_id and kwargs.get("at_sender", False):
-        message_sent += MessageSegment.at(user_id) + " "
+        message_sent += f"{MessageSegment.at(user_id)} "
     message_sent += message
 
     return await self.send_guild_channel_msg(

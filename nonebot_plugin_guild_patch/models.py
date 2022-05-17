@@ -37,7 +37,7 @@ class GuildMessageEvent(MessageEvent):
     font: None = None
 
     @validator("raw_message", pre=True)
-    def _validate_raw_message(cls, raw_message):
+    def _validate_raw_message(self, raw_message):
         if isinstance(raw_message, str):
             return raw_message
         elif isinstance(raw_message, list):
