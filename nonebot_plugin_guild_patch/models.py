@@ -157,7 +157,15 @@ class ChannelNoticeEvent(NoticeEvent):
 
 
 @register_event
-class MessageReactionUpdatedNoticeEvent(ChannelNoticeEvent):
+class GuildChannelRecallNoticeEvent(ChannelNoticeEvent):
+    """频道消息撤回"""
+    notice_type: Literal["guild_channel_recall"]
+    operator_id: int
+    message_id: str
+
+
+@register_event
+class MessageReactionsUpdatedNoticeEvent(ChannelNoticeEvent):
     """频道消息表情贴更新"""
     notice_type: Literal["message_reactions_updated"]
     message_id: str
@@ -219,7 +227,8 @@ class ChannelDestroyedNoticeEvent(ChannelNoticeEvent):
 __all__ = [
     'GuildMessageEvent',
     'ChannelNoticeEvent',
-    'MessageReactionUpdatedNoticeEvent',
+    'GuildChannelRecallNoticeEvent',
+    'MessageReactionsUpdatedNoticeEvent',
     'ChannelUpdatedNoticeEvent',
     'ChannelCreatedNoticeEvent',
     'ChannelDestroyedNoticeEvent',

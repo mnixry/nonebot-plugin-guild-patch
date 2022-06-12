@@ -3,7 +3,8 @@ from typing import Optional, Union
 from nonebot.adapters.onebot.v11 import Bot, Event, Message, MessageSegment
 from nonebot.log import logger
 
-from .models import (GuildMessageEvent, ChannelNoticeEvent, MessageReactionUpdatedNoticeEvent,
+from .models import (GuildMessageEvent, ChannelNoticeEvent,
+                     GuildChannelRecallNoticeEvent, MessageReactionsUpdatedNoticeEvent,
                      ChannelUpdatedNoticeEvent, ChannelCreatedNoticeEvent, ChannelDestroyedNoticeEvent)
 from .permission import GUILD, GUILD_SUPERUSER
 
@@ -50,7 +51,8 @@ __all__ = [
     'GUILD_SUPERUSER',
     'GuildMessageEvent',
     'ChannelNoticeEvent',
-    'MessageReactionUpdatedNoticeEvent',
+    'GuildChannelRecallNoticeEvent',
+    'MessageReactionsUpdatedNoticeEvent',
     'ChannelUpdatedNoticeEvent',
     'ChannelCreatedNoticeEvent',
     'ChannelDestroyedNoticeEvent'
