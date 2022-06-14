@@ -20,6 +20,6 @@ GUILD_SUPERUSER: Permission = Permission(_guild_superuser)
 
 
 __all__ = [
-    'GUILD',
-    'GUILD_SUPERUSER'
+    "GUILD",
+    "GUILD_SUPERUSER"
 ]

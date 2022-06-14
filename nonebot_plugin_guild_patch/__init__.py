@@ -47,13 +47,13 @@ Bot.send = patched_send
 
 
 __all__ = [
-    'GUILD',
-    'GUILD_SUPERUSER',
-    'GuildMessageEvent',
-    'ChannelNoticeEvent',
-    'GuildChannelRecallNoticeEvent',
-    'MessageReactionsUpdatedNoticeEvent',
-    'ChannelUpdatedNoticeEvent',
-    'ChannelCreatedNoticeEvent',
-    'ChannelDestroyedNoticeEvent'
+    "GUILD",
+    "GUILD_SUPERUSER",
+    "GuildMessageEvent",
+    "ChannelNoticeEvent",
+    "GuildChannelRecallNoticeEvent",
+    "MessageReactionsUpdatedNoticeEvent",
+    "ChannelUpdatedNoticeEvent",
+    "ChannelCreatedNoticeEvent",
+    "ChannelDestroyedNoticeEvent"
 ]

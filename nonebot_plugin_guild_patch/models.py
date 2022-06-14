@@ -46,22 +46,22 @@ class GuildMessageEvent(MessageEvent):
             return raw_message
         elif isinstance(raw_message, list):
             return str(parse_obj_as(Message, raw_message))
-        raise ValueError('unknown raw message type')
+        raise ValueError("unknown raw message type")
 
     @root_validator(pre=False)
     def _validate_is_tome(cls, values):
-        message = values.get('message')
-        self_tiny_id = values.get('self_tiny_id')
+        message = values.get("message")
+        self_tiny_id = values.get("self_tiny_id")
         message, is_tome = cls._check_at_me(message=message, self_tiny_id=self_tiny_id)
-        values.update({'message': message, 'to_me': is_tome, 'raw_message': str(message)})
+        values.update({"message": message, "to_me": is_tome, "raw_message": str(message)})
         return values
 
     @overrides(Event)
     def is_tome(self) -> bool:
         return self.to_me or any(
-            str(msg_seg.data.get('qq', '')) == str(self.self_tiny_id)
+            str(msg_seg.data.get("qq", "")) == str(self.self_tiny_id)
             for msg_seg in self.message
-            if msg_seg.type == 'at'
+            if msg_seg.type == "at"
         )
 
     @overrides(Event)
@@ -92,7 +92,7 @@ class GuildMessageEvent(MessageEvent):
             message.append(MessageSegment.text(""))
 
         def _is_at_me_seg(segment: MessageSegment):
-            return segment.type == 'at' and str(segment.data.get('qq', '')) == str(self_tiny_id)
+            return segment.type == "at" and str(segment.data.get("qq", "")) == str(self_tiny_id)
 
         # check the first segment
         if _is_at_me_seg(message[0]):
@@ -225,14 +225,14 @@ class ChannelDestroyedNoticeEvent(ChannelNoticeEvent):
 
 
 __all__ = [
-    'GuildMessageEvent',
-    'ChannelNoticeEvent',
-    'GuildChannelRecallNoticeEvent',
-    'MessageReactionsUpdatedNoticeEvent',
-    'ChannelUpdatedNoticeEvent',
-    'ChannelCreatedNoticeEvent',
-    'ChannelDestroyedNoticeEvent',
-    'ReactionInfo',
-    'SlowModeInfo',
-    'ChannelInfo'
+    "GuildMessageEvent",
+    "ChannelNoticeEvent",
+    "GuildChannelRecallNoticeEvent",
+    "MessageReactionsUpdatedNoticeEvent",
+    "ChannelUpdatedNoticeEvent",
+    "ChannelCreatedNoticeEvent",
+    "ChannelDestroyedNoticeEvent",
+    "ReactionInfo",
+    "SlowModeInfo",
+    "ChannelInfo"
 ]
