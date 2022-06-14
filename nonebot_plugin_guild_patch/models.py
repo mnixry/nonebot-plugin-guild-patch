@@ -40,7 +40,7 @@ class GuildMessageEvent(MessageEvent):
     raw_message: str = Field(alias="message")
     font: None = None
 
-    @validator('raw_message', pre=True)
+    @validator("raw_message", pre=True)
     def _validate_raw_message(cls, raw_message):
         if isinstance(raw_message, str):
             return raw_message
@@ -67,7 +67,7 @@ class GuildMessageEvent(MessageEvent):
     @overrides(Event)
     def get_event_description(self) -> str:
         return (
-            f'Message {self.message_id} from {self.user_id}@[频道:{self.guild_id}/子频道:{self.channel_id}] "'
+            f'Message {self.message_id} from {self.user_id}@[Guild:{self.guild_id}/Channel:{self.channel_id}] "'
             + "".join(
                 map(
                     lambda x: escape_tag(str(x))
@@ -85,7 +85,7 @@ class GuildMessageEvent(MessageEvent):
 
     @staticmethod
     def _check_at_me(message: Message, self_tiny_id: int) -> tuple[Message, bool]:
-        """检查消息开头或结尾是否存在 @机器人，去除并赋值 ``event.to_me``"""
+        """检查消息开头或结尾是否存在 @机器人，去除并赋值 event.to_me"""
         is_tome = False
         # ensure message not empty
         if not message:
