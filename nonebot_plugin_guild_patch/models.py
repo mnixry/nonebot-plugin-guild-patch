@@ -1,4 +1,3 @@
-import inspect
 from typing import List, Optional, Type, TypeVar
 
 from nonebot.adapters.onebot.v11 import (
@@ -6,15 +5,14 @@ from nonebot.adapters.onebot.v11 import (
     Event,
     Message,
     MessageEvent,
+    MessageSegment,
     NoticeEvent,
-    MessageSegment
 )
 from nonebot.log import logger
 from nonebot.typing import overrides
 from nonebot.utils import escape_tag
-from pydantic import BaseModel, Field, parse_obj_as, validator, root_validator
+from pydantic import BaseModel, Field, parse_obj_as, root_validator, validator
 from typing_extensions import Literal
-
 
 Event_T = TypeVar("Event_T", bound=Type[Event])
 
@@ -23,7 +21,7 @@ def register_event(event: Event_T) -> Event_T:
     Adapter.add_custom_model(event)
     logger.opt(colors=True).trace(
         f"Custom event <e>{event.__qualname__!r}</e> registered "
-        f"from module <g>{inspect.getmodule(event).__name__!r}</g>"
+        f"from module <g>{event.__class__.__module__!r}</g>"
     )
     return event
 
@@ -31,6 +29,7 @@ def register_event(event: Event_T) -> Event_T:
 @register_event
 class GuildMessageEvent(MessageEvent):
     """收到频道消息"""
+
     message_type: Literal["guild"]
     self_tiny_id: int
     message_id: str
@@ -53,7 +52,9 @@ class GuildMessageEvent(MessageEvent):
         message = values.get("message")
         self_tiny_id = values.get("self_tiny_id")
         message, is_tome = cls._check_at_me(message=message, self_tiny_id=self_tiny_id)
-        values.update({"message": message, "to_me": is_tome, "raw_message": str(message)})
+        values.update(
+            {"message": message, "to_me": is_tome, "raw_message": str(message)}
+        )
         return values
 
     @overrides(Event)
@@ -67,8 +68,9 @@ class GuildMessageEvent(MessageEvent):
     @overrides(Event)
     def get_event_description(self) -> str:
         return (
-            f'Message {self.message_id} from {self.user_id}@[Guild:{self.guild_id}/Channel:{self.channel_id}] "'
-            + "".join(
+            f"Message {self.message_id} from "
+            f'{self.user_id}@[Guild:{self.guild_id}/Channel:{self.channel_id}] "%s"'
+            % "".join(
                 map(
                     lambda x: escape_tag(str(x))
                     if x.is_text()
@@ -76,7 +78,6 @@ class GuildMessageEvent(MessageEvent):
                     self.message,
                 )
             )
-            + '"'
         )
 
     @overrides(MessageEvent)
@@ -92,7 +93,9 @@ class GuildMessageEvent(MessageEvent):
             message.append(MessageSegment.text(""))
 
         def _is_at_me_seg(segment: MessageSegment):
-            return segment.type == "at" and str(segment.data.get("qq", "")) == str(self_tiny_id)
+            return segment.type == "at" and str(segment.data.get("qq", "")) == str(
+                self_tiny_id
+            )
 
         # check the first segment
         if _is_at_me_seg(message[0]):
@@ -105,9 +108,7 @@ class GuildMessageEvent(MessageEvent):
             if message and _is_at_me_seg(message[0]):
                 message.pop(0)
                 if message and message[0].type == "text":
-                    message[0].data["text"] = (
-                        message[0].data["text"].lstrip()
-                    )
+                    message[0].data["text"] = message[0].data["text"].lstrip()
                     if not message[0].data["text"]:
                         del message[0]
 
@@ -116,9 +117,9 @@ class GuildMessageEvent(MessageEvent):
             i = -1
             last_msg_seg = message[i]
             if (
-                    last_msg_seg.type == "text"
-                    and not last_msg_seg.data["text"].strip()
-                    and len(message) >= 2
+                last_msg_seg.type == "text"
+                and not last_msg_seg.data["text"].strip()
+                and len(message) >= 2
             ):
                 i -= 1
                 last_msg_seg = message[i]
@@ -148,6 +149,7 @@ class ReactionInfo(BaseModel):
 @register_event
 class ChannelNoticeEvent(NoticeEvent):
     """频道通知事件"""
+
     notice_type: Literal["channel"]
     self_tiny_id: int
     guild_id: int
@@ -159,6 +161,7 @@ class ChannelNoticeEvent(NoticeEvent):
 @register_event
 class GuildChannelRecallNoticeEvent(ChannelNoticeEvent):
     """频道消息撤回"""
+
     notice_type: Literal["guild_channel_recall"]
     operator_id: int
     message_id: str
@@ -167,6 +170,7 @@ class GuildChannelRecallNoticeEvent(ChannelNoticeEvent):
 @register_event
 class MessageReactionsUpdatedNoticeEvent(ChannelNoticeEvent):
     """频道消息表情贴更新"""
+
     notice_type: Literal["message_reactions_updated"]
     message_id: str
     current_reactions: Optional[List[ReactionInfo]] = None
@@ -202,6 +206,7 @@ class ChannelInfo(BaseModel):
 @register_event
 class ChannelUpdatedNoticeEvent(ChannelNoticeEvent):
     """子频道信息更新"""
+
     notice_type: Literal["channel_updated"]
     operator_id: int
     old_info: ChannelInfo
@@ -211,6 +216,7 @@ class ChannelUpdatedNoticeEvent(ChannelNoticeEvent):
 @register_event
 class ChannelCreatedNoticeEvent(ChannelNoticeEvent):
     """子频道创建"""
+
     notice_type: Literal["channel_created"]
     operator_id: int
     channel_info: ChannelInfo
@@ -219,6 +225,7 @@ class ChannelCreatedNoticeEvent(ChannelNoticeEvent):
 @register_event
 class ChannelDestroyedNoticeEvent(ChannelNoticeEvent):
     """子频道删除"""
+
     notice_type: Literal["channel_destroyed"]
     operator_id: int
     channel_info: ChannelInfo
@@ -234,5 +241,5 @@ __all__ = [
     "ChannelDestroyedNoticeEvent",
     "ReactionInfo",
     "SlowModeInfo",
-    "ChannelInfo"
+    "ChannelInfo",
 ]
