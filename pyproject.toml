@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot-plugin-guild-patch"
-version = "0.1.3"
+version = "0.2.0"
 description = "Patch plugin for NoneBot2 QQ guild (go-cqhttp) support."
 authors = ["Mix <mnixry@users.noreply.github.com>"]
 license = "MIT"
