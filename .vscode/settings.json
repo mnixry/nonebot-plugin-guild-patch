@@ -26,6 +26,9 @@
     "git.enableSmartCommit": true,
     "python.analysis.diagnosticMode": "workspace",
     "cSpell.words": [
+        "cqhttp",
+        "nonebot",
+        "onebot",
         "pydantic"
     ],
 }
