@@ -1,4 +1,4 @@
-from typing import List, Optional, Type, TypeVar
+from typing import List, Tuple, Optional, Type, TypeVar
 
 from nonebot.adapters.onebot.v11 import (
     Adapter,
@@ -85,7 +85,7 @@ class GuildMessageEvent(MessageEvent):
         return f"guild_{self.guild_id}_channel_{self.channel_id}_{self.user_id}"
 
     @staticmethod
-    def _check_at_me(message: Message, self_tiny_id: int) -> tuple[Message, bool]:
+    def _check_at_me(message: Message, self_tiny_id: int) -> Tuple[Message, bool]:
         """检查消息开头或结尾是否存在 @机器人，去除并赋值 event.to_me"""
         is_tome = False
         # ensure message not empty
