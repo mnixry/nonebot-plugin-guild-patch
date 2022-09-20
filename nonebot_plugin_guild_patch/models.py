@@ -1,13 +1,7 @@
-from typing import List, Tuple, Optional, Type, TypeVar
+from typing import List, Optional, Tuple, Type, TypeVar
 
-from nonebot.adapters.onebot.v11 import (
-    Adapter,
-    Event,
-    Message,
-    MessageEvent,
-    MessageSegment,
-    NoticeEvent,
-)
+from nonebot.adapters.onebot.v11 import (Adapter, Event, Message, MessageEvent,
+                                         MessageSegment, NoticeEvent)
 from nonebot.log import logger
 from nonebot.typing import overrides
 from nonebot.utils import escape_tag
