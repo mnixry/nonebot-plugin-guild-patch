@@ -3,11 +3,16 @@ from typing import Optional, Union
 from nonebot.adapters.onebot.v11 import Bot, Event, Message, MessageSegment
 from nonebot.log import logger
 
-from .models import (ChannelCreatedNoticeEvent, ChannelDestroyedNoticeEvent,
-                     ChannelNoticeEvent, ChannelUpdatedNoticeEvent,
-                     GuildChannelRecallNoticeEvent, GuildMessageEvent,
-                     MessageReactionsUpdatedNoticeEvent)
-from .permission import GUILD, GUILD_SUPERUSER, GUILD_OWNER, GUILD_ADMIN
+from .models import (
+    ChannelCreatedNoticeEvent,
+    ChannelDestroyedNoticeEvent,
+    ChannelNoticeEvent,
+    ChannelUpdatedNoticeEvent,
+    GuildChannelRecallNoticeEvent,
+    GuildMessageEvent,
+    MessageReactionsUpdatedNoticeEvent,
+)
+from .permission import GUILD, GUILD_ADMIN, GUILD_OWNER, GUILD_SUPERUSER
 
 original_send = Bot.send
 
