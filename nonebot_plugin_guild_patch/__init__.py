@@ -7,7 +7,7 @@ from .models import (ChannelCreatedNoticeEvent, ChannelDestroyedNoticeEvent,
                      ChannelNoticeEvent, ChannelUpdatedNoticeEvent,
                      GuildChannelRecallNoticeEvent, GuildMessageEvent,
                      MessageReactionsUpdatedNoticeEvent)
-from .permission import GUILD, GUILD_SUPERUSER
+from .permission import GUILD, GUILD_SUPERUSER, GUILD_OWNER, GUILD_ADMIN
 
 original_send = Bot.send
 
@@ -48,6 +48,8 @@ Bot.send = patched_send
 
 __all__ = [
     "GUILD",
+    "GUILD_OWNER",
+    "GUILD_ADMIN",
     "GUILD_SUPERUSER",
     "GuildMessageEvent",
     "ChannelNoticeEvent",
